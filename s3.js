@@ -24,7 +24,7 @@ export class Backup {
     async uploadBundle(bundleStream, repo) {
         const s3Params = {
             Bucket: this.bucket,
-            Key: repo.name + "/" + new Date().toISOString() + ".bundle",
+            Key: repo.name + "/" + repo.name + ".bundle",
             Body: bundleStream,
             StorageClass: this.storageClass,
             Metadata: {
@@ -32,7 +32,8 @@ export class Backup {
                 "backup-date": new Date().toISOString(),
                 "tags": repo.tags || 'none',
                 "description": repo.description,
-                "default-branch": repo.defaultBranch
+                "default-branch": repo.defaultBranch,
+                "head-commit": repo.headCommit
             }
         };
 
@@ -45,7 +46,7 @@ export class Backup {
     }
 
     async getLastUpdated(repo) {
-        // get the last time a file inside the s3 directory was updated
+        // get the last time a current file inside the s3 directory was updated
         const s3Params = {
             Bucket: this.bucket,
             Prefix: repo.name + "/",

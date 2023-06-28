@@ -34,6 +34,13 @@ export class Organization {
             await rm(tempDir, {recursive: true});
             return null;
         }
+        //
+        // console.log("  Get default ref...")
+        // try {
+        //     const {stdout} = await execAsync(`git rev-parse --verify HEAD`, {cwd: tempDir});
+        // } catch (e) {
+        //     console.error(e.stderr);
+        // }
 
         console.log("  Creating bundle...")
         try{
@@ -71,6 +78,11 @@ export class Organization {
             // Return if the repo was updated after the lastUpdated date
             for (const repo of response.data) {
                 const updatedAt = new Date(repo.updated_at)
+                const branch = await this.octokit.rest.repos.getBranch({
+                    owner: org,
+                    repo: repo.name,
+                    branch: repo.default_branch
+                });
                 yield {
                     name: repo.name,
                     url: repo.clone_url,
@@ -78,7 +90,8 @@ export class Organization {
                     id: repo.id,
                     tags: repo.topics.join(", "),
                     description: repo.description,
-                    defaultBranch: repo.default_branch
+                    defaultBranch: repo.default_branch,
+                    headCommit: branch.data.commit.sha
                 }
             }
         }
