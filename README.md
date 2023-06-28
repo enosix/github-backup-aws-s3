@@ -1,15 +1,15 @@
 # github-backup-to-s3
 
-A tool to backup all your github repos to a aws s3 bucket.
-It can optionally backup just an organisation's repositories.
+A tool to back up all your github repos to an aws s3 bucket.
+It can optionally back up just an organization's repositories.
 
 ## Usage
 
-copy `.env.example` and rename it `.env` and setup the config variables.
+copy `.env.example` and rename it `.env` and set up the config variables.
 
 ### AWS Credentials
 
-create a new IAM user with *programmatic access* and add access to `putObject` on the specific bucket you want to backup.
+create a new IAM user with *programmatic access* and add access to `putObject` on the specific bucket you want to back up.
 
 *(no other permissions is needed)*
 
@@ -32,13 +32,15 @@ the policy could look something like:
 }
 ```
 
-### Run in organisation module
+### Environment variables
 
 In your `.env`, set:
 
-`GITHUB_ORGANISATION` to the name of the Organisation
-
-`BACKUP_MODE=organisation`
+`GITHUB_ORGANIZATION` to the name of the Organization
+`AWS_ACCESS_KEY_ID` and `AWS_ACCESS_SECRET_KEY` to the credentials of the IAM user
+`AWS_S3_STORAGE_CLASS` to STANDARD
+`BUCKET_NAME` to the name of the bucket you want to back up to
+`GITHUB_ACCESS_TOKEN` to a github access token with read access to the organization
 
 
 ### Run locally

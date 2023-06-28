@@ -8,15 +8,15 @@ provider:
   timeout: 600
 functions:
   runBackup:
-    handler: handler.runBackup
+    handler: index.runBackup
     environment:
-      GITHUB_ACCESS_TOKEN: ${env:GITHUB_ACCESS_TOKEN}
-      AWS_S3_ACCESS_KEY_ID: ${env:AWS_S3_ACCESS_KEY_ID}
-      AWS_S3_ACCESS_SECRET_KEY: ${env:AWS_S3_ACCESS_SECRET_KEY}
-      AWS_S3_BUCKET_NAME: ${env:AWS_S3_BUCKET_NAME}
-      AWS_S3_STORAGE_CLASS: ${env:AWS_S3_STORAGE_CLASS}
-      BACKUP_MODE: ${env:BACKUP_MODE}
-      GITHUB_ORGANISATION: ${env:GITHUB_ORGANISATION}
-      EXPIRE_THRESHOLD: ${env:EXPIRE_THRESHOLD}
+        AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+        AWS_ACCESS_SECRET_KEY: ${env:AWS_ACCESS_SECRET_KEY}
+        AWS_S3_STORAGE_CLASS: ${env:AWS_S3_STORAGE_CLASS}
+        BUCKET_NAME: ${env:BUCKET_NAME}
+        GITHUB_ACCESS_TOKEN: ${env:GITHUB_ACCESS_TOKEN}
+        GITHUB_ORGANIZATION: ${env:GITHUB_ORGANIZATION}
+    layers:
+      - arn:aws:lambda:us-east-1:553035198032:layer:git-lambda2:8
     events:
       - schedule: ${opt:schedule-expression} # http://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html

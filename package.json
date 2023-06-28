@@ -3,11 +3,11 @@
   "version": "1.1.0",
   "description": "simple tool to backup github user repos to and aws s3 bucket",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.337.0",
-    "dotenv": "^4.0.0",
-    "@octokit/rest": "^19.0.8",
-    "node-fetch": "^3.3.1"
+    "dotenv": "^16.3.1",
+    "@octokit/rest": "^19.0.8"
   },
   "keywords": [
     "serverless",
