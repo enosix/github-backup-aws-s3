@@ -26,7 +26,7 @@ export class Organization {
         // make a temp directory
         let tempDir = await mkdtemp(join(tmpdir(), 'github-backup-'));
 
-        console.log("  Cloning repo...")
+        console.log("  Cloning  repo...")
         try {
             await execAsync(`git clone https://${this.token}@${uri.hostname}${uri.pathname} .`, {cwd: tempDir});
         } catch (e) {
@@ -34,13 +34,6 @@ export class Organization {
             await rm(tempDir, {recursive: true});
             return null;
         }
-        //
-        // console.log("  Get default ref...")
-        // try {
-        //     const {stdout} = await execAsync(`git rev-parse --verify HEAD`, {cwd: tempDir});
-        // } catch (e) {
-        //     console.error(e.stderr);
-        // }
 
         console.log("  Creating bundle...")
         try{
@@ -77,7 +70,11 @@ export class Organization {
         })) {
             // Return if the repo was updated after the lastUpdated date
             for (const repo of response.data) {
-                const updatedAt = new Date(repo.updated_at)
+                if (!repo.size) {
+                    continue;
+                }
+                const updatedAt = new Date(repo.pushed_at)
+
                 const branch = await this.octokit.rest.repos.getBranch({
                     owner: org,
                     repo: repo.name,
