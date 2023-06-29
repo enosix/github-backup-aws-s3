@@ -28,7 +28,7 @@ export class Organization {
 
         console.log("  Cloning  repo...")
         try {
-            await execAsync(`git clone https://${this.token}@${uri.hostname}${uri.pathname} .`, {cwd: tempDir});
+            await execAsync(`git clone --mirror https://${this.token}@${uri.hostname}${uri.pathname} .`, {cwd: tempDir});
         } catch (e) {
             console.error(e.stderr);
             await rm(tempDir, {recursive: true});
